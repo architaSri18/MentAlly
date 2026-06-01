@@ -53,7 +53,6 @@ A comprehensive full-stack web application designed to help users track their me
 - **Flask-CORS** - Cross-origin resource sharing
 - **MongoDB** - NoSQL database with PyMongo driver
 - **JWT + Bcrypt** - Secure authentication and password hashing
-- **Hugging Face Transformers & PyTorch** - AI-powered sentiment and emotion analysis
 
 ### Frontend
 - **React.js v18+** - UI framework
