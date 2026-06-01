@@ -50,16 +50,17 @@ A comprehensive full-stack web application designed to help users track their me
 
 ### Backend
 - **Python Flask** - Web framework
-- **SQLite** - Database
-- **JWT** - Authentication
-- **AI/ML Services** - Mood analysis and chat support
+- **Flask-CORS** - Cross-origin resource sharing
+- **MongoDB** - NoSQL database with PyMongo driver
+- **JWT + Bcrypt** - Secure authentication and password hashing
+- **Hugging Face Transformers & PyTorch** - AI-powered sentiment and emotion analysis
 
 ### Frontend
-- **React.js** - UI framework
-- **Vite** - Build tool and dev server
-- **React Router** - Navigation
-- **Chart.js** - Data visualization
-- **Tailwind CSS** - Styling
+- **React.js v18+** - UI framework
+- **Vite** - Build tool and development server
+- **React Router DOM** - Client-side routing
+- **Lucide React** - Beautiful icon library
+- **Vanilla CSS** - Custom styling with glassmorphism design
 
 ## 📁 Project Structure
 
