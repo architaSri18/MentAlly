@@ -146,10 +146,6 @@ npm run dev
 
 The frontend will start on `http://localhost:5173`
 
-## 📱 Screenshots
-
-*(Add screenshots of your application here)*
-
 ## 🔐 Authentication
 
 MentAlly uses JWT (JSON Web Tokens) for secure authentication. Users need to register and login to access their personalized dashboard and tracking features.
@@ -170,36 +166,3 @@ MentAlly uses JWT (JSON Web Tokens) for secure authentication. Users need to reg
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🆘 Support
-
-If you or someone you know is struggling with mental health issues, please reach out for professional help:
-
-- **National Suicide Prevention Lifeline**: 988
-- **Crisis Text Line**: Text HOME to 741741
-- **Emergency Services**: 911
-
-## 👩‍💻 Developer
-
-**Archita Sri**
-- GitHub: [@architaSri18](https://github.com/architaSri18)
-
-## 🙏 Acknowledgments
-
-- Mental health professionals who inspired this project
-- Open source libraries and frameworks used
-- Community support and feedback
-
----
-
-**Remember**: MentAlly is a wellness tool and is not a substitute for professional mental health care. Always consult with qualified healthcare providers for medical advice.
