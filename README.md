@@ -115,8 +115,9 @@ pip install -r requirements.txt
 Create a `.env` file in the backend directory with the following:
 ```env
 SECRET_KEY=your-secret-key-here
-DATABASE_URL=sqlite:///mentally.db
-AI_API_KEY=your-ai-api-key
+JWT_SECRET=your-jwt-secret-here
+MONGO_URI=mongodb://localhost:27017/mental_health_db
+FRONTEND_URL=http://localhost:5173
 ```
 
 5. Run the backend server:
@@ -138,12 +139,54 @@ cd frontend
 npm install
 ```
 
-3. Start the development server:
+3. (Optional for production builds) Create a `.env` file:
+```env
+VITE_API_URL=http://localhost:5000/api
+```
+
+4. Start the development server:
 ```bash
 npm run dev
 ```
 
 The frontend will start on `http://localhost:5173`
+
+## ☁️ Deployment
+
+Deploy the **frontend** and **backend** as separate services, plus a cloud MongoDB.
+
+### Database
+1. Create a cluster on [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
+2. Allow the backend host IP (or `0.0.0.0/0` while testing).
+3. Use a connection string that includes a database name, for example:
+   `mongodb+srv://USER:PASS@cluster.mongodb.net/mental_health_db`
+
+### Backend (Render, Railway, Fly.io, or a VPS)
+- Root directory: `backend`
+- Build: `pip install -r requirements.txt`
+- Start: `gunicorn -w 1 -b 0.0.0.0:$PORT app:app`
+- Use **one worker** and at least **2 GB RAM** (Hugging Face models need memory).
+- Environment variables:
+```env
+SECRET_KEY=long-random-string
+JWT_SECRET=another-long-random-string
+MONGO_URI=mongodb+srv://USER:PASS@cluster.mongodb.net/mental_health_db
+FRONTEND_URL=https://your-frontend.example.com
+```
+
+Do not host this Flask API on Vercel/Netlify serverless functions.
+
+### Frontend (Vercel, Netlify, or Cloudflare Pages)
+- Root directory: `frontend`
+- Build: `npm install && npm run build`
+- Output: `dist`
+- Environment variable:
+```env
+VITE_API_URL=https://your-api.example.com/api
+```
+- Rewrite unknown routes to `index.html` (SPA).
+
+`VITE_API_URL` is baked in at **build time**. Rebuild after you change it.
 
 ## 🔐 Authentication
 

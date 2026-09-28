@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { User, Camera, Save } from 'lucide-react';
+import { profileService } from '../services/apiService';
+import { API_ORIGIN } from '../config';
 
 const Profile = ({ user }) => {
     const [profile, setProfile] = useState({
@@ -21,13 +23,14 @@ const Profile = ({ user }) => {
 
     const fetchProfile = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/profile/me', {
-                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-            });
-            const data = await response.json();
+            const data = await profileService.getProfile();
             setProfile(data);
             if (data.profile_image) {
-                setPreviewUrl(`http://localhost:5000${data.profile_image}`);
+                setPreviewUrl(
+                    data.profile_image.startsWith('http')
+                        ? data.profile_image
+                        : `${API_ORIGIN}${data.profile_image}`
+                );
             }
         } catch (err) {
             console.error(err);
@@ -60,15 +63,9 @@ const Profile = ({ user }) => {
         }
 
         try {
-            const response = await fetch('http://localhost:5000/api/profile/update', {
-                method: 'POST',
-                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
-                body: formData
-            });
-            if (response.ok) {
-                setToast('Your profile looks great — saved with care.');
-                setTimeout(() => setToast(''), 3200);
-            }
+            await profileService.updateProfile(formData);
+            setToast('Your profile looks great — saved with care.');
+            setTimeout(() => setToast(''), 3200);
         } catch (err) {
             console.error(err);
         } finally {

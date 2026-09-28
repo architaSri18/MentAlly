@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, CheckCircle, Circle, ListTodo } from 'lucide-react';
 import { useTracking } from '../context/TrackingContext';
+import { taskService } from '../services/wellnessService';
 
 const Todo = () => {
     const { refreshTracking } = useTracking();
@@ -13,11 +14,8 @@ const Todo = () => {
 
     const fetchTasks = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/habits/tasks', {
-                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-            });
-            const data = await response.json();
-            setTasks(data);
+            const data = await taskService.getTasks();
+            setTasks(Array.isArray(data) ? data : []);
         } catch (err) {
             console.error(err);
         }
@@ -28,15 +26,7 @@ const Todo = () => {
         if (!newTask.trim()) return;
 
         try {
-            const response = await fetch('http://localhost:5000/api/habits/tasks', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
-                body: JSON.stringify({ text: newTask })
-            });
-            const data = await response.json();
+            const data = await taskService.createTask(newTask);
             setTasks([...tasks, data]);
             setNewTask('');
             refreshTracking();
@@ -47,14 +37,7 @@ const Todo = () => {
 
     const toggleTask = async (id, completed) => {
         try {
-            await fetch(`http://localhost:5000/api/habits/tasks/${id}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
-                body: JSON.stringify({ completed: !completed })
-            });
+            await taskService.updateTask(id, !completed);
             setTasks(tasks.map(t => t._id === id ? { ...t, completed: !completed } : t));
             refreshTracking();
         } catch (err) {

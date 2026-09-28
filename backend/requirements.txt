@@ -6,3 +6,4 @@ pyjwt
 pymongo
 transformers
 torch
+gunicorn

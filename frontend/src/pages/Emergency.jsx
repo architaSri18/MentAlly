@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Phone, Trash2, UserPlus, HeartHandshake } from 'lucide-react';
+import { emergencyService } from '../services/apiService';
 
 const Emergency = () => {
     const [contacts, setContacts] = useState([]);
@@ -11,11 +12,8 @@ const Emergency = () => {
 
     const fetchContacts = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/emergency/', {
-                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-            });
-            const data = await response.json();
-            setContacts(data);
+            const data = await emergencyService.getContacts();
+            setContacts(Array.isArray(data) ? data : []);
         } catch (err) {
             console.error(err);
         }
@@ -26,15 +24,7 @@ const Emergency = () => {
         if (!newContact.name || !newContact.phone) return;
 
         try {
-            const response = await fetch('http://localhost:5000/api/emergency/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
-                body: JSON.stringify(newContact)
-            });
-            const data = await response.json();
+            const data = await emergencyService.addContact(newContact);
             setContacts([...contacts, data]);
             setNewContact({ name: '', phone: '', relation: '' });
         } catch (err) {
@@ -44,10 +34,7 @@ const Emergency = () => {
 
     const deleteContact = async (id) => {
         try {
-            await fetch(`http://localhost:5000/api/emergency/${id}`, {
-                method: 'DELETE',
-                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-            });
+            await emergencyService.deleteContact(id);
             setContacts(contacts.filter(c => c._id !== id));
         } catch (err) {
             console.error(err);
